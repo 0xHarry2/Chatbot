@@ -2,6 +2,9 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_fireworks.chat_models import ChatFireworks
+import fireworks.client
+from fireworks.client.image import ImageInference, Answer
+
 # import gradio as gr
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -29,31 +32,28 @@ def chat_with_llama():
     send_message = {"response": response.content}
     return jsonify(send_message)
 
-# Main function to run the chatbot
-# def main():
-#     print("LLaMA-v2-13b-chat Console Chatbot. Type 'exit' to quit.")
-#     while True:
-#         user_input = input("You: ")
-#         if user_input.lower() == "exit":
-#             print("Goodbye!")
-#             break
-#         response = chat_with_llama(user_input)
-#         print(f"LLaMA: {response}")
+fireworks.client.api_key = "jGQ0lUjQHRq1jfAo2zZRE5fTUsrUx2jfyTTppjknRJ6BwDVy"
+inference_client = ImageInference(model="stable-diffusion-xl-1024-v1-0")
+@app.route('/image', methods=['POST'])
+def imageGeneration(prompt):
+    answer : Answer = inference_client.text_to_image(
+        prompt=prompt,
+        cfg_scale=10,
+        height=1024,
+        width=1024,
+        sampler=None,
+        steps=25,
+        seed=3,
+        safety_check=False,
+        output_image_format="PNG",
+        # Add additional parameters here
+    )
 
-# if __name__ == "__main__":
-#     main()
-
-# iface = gr.Interface(
-#     fn=chat_with_llama,
-#     inputs=gr.Textbox(lines=7, placeholder="Enter your message here..."),
-#     outputs="text",
-#     title="Chatbot",
-#     description="Type a message and press enter to chat with the bot.",
-# )
-
-# Launch the Gradio interface
-# if __name__ == "__main__":
-#     iface.launch(share=True)
+    if answer.image is None:
+        raise RuntimeError(f"No return image, {answer.finish_reason}")
+    else:
+        answer.image.save("output.png")
+    return answer
 
 if __name__ == "__main__":
     from waitress import serve
