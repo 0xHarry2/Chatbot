@@ -13,13 +13,13 @@ import waitress
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
 CORS(app)
-api_key1 = "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"
+api_key1 = ""
 
 chat = ChatFireworks(
     model="accounts/fireworks/models/llama-v2-13b-chat",
     temperature=0.5,
     max_tokens=1000,
-    api_key="jGQ0lUjQHRq1jfAo2zZRE5fTUsrUx2jfyTTppjknRJ6BwDVy"
+    api_key=""
 )
 # Function to interact with the chatbot
 @app.route('/chat', methods=['POST'])
@@ -32,7 +32,7 @@ def chat_with_llama():
     send_message = {"response": response.content}
     return jsonify(send_message)
 
-fireworks.client.api_key = "jGQ0lUjQHRq1jfAo2zZRE5fTUsrUx2jfyTTppjknRJ6BwDVy"
+fireworks.client.api_key = ""
 inference_client = ImageInference(model="stable-diffusion-xl-1024-v1-0")
 @app.route('/image', methods=['POST'])
 def imageGeneration(prompt):
