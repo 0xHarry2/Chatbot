@@ -2,7 +2,7 @@ import fireworks.client
 from fireworks.client.image import ImageInference, Answer
 
 # Initialize the ImageInference client
-fireworks.client.api_key = "jGQ0lUjQHRq1jfAo2zZRE5fTUsrUx2jfyTTppjknRJ6BwDVy"
+fireworks.client.api_key = ""
 inference_client = ImageInference(model="stable-diffusion-xl-1024-v1-0")
 
 def imageGeneration(prompt):
