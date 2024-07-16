@@ -29,6 +29,6 @@ if __name__ == "__main__":
     prompt = input("Prompt: ")
 # Generate an image using the text_to_image method
     image = imageGeneration(prompt)
-    print ("image..............",image)
-    with open('generated_image.png', 'wb') as file:
-        file.write(image.content)
+    # print ("image..............",image)
+    # with open('generated_image.png', 'wb') as file:
+    #     file.write(image.content)
